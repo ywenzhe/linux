@@ -326,6 +326,28 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
 }
 
 /*
+ * 添加设置和检查CXL_CHECK位的宏或函数
+ */
+
+// 检查位是否被设置
+static inline int pte_cxl_checked(pte_t pte)
+{
+    return (pte_val(pte) & _PAGE_CXL_CHECK) != 0;
+}
+
+// 设置CXL_CHECK位
+static inline pte_t pte_set_cxl_check(pte_t pte)
+{
+	return pte_set_flags(pte, _PAGE_CXL_CHECK);
+}
+
+// 清除CXL_CHECK位
+static inline pte_t pte_clear_cxl_check(pte_t pte)
+{
+    return pte_clear_flags(pte, _PAGE_CXL_CHECK);
+}
+
+/*
  * Write protection operations can result in Dirty=1,Write=0 PTEs. But in the
  * case of X86_FEATURE_USER_SHSTK, these PTEs denote shadow stack memory. So
  * when creating dirty, write-protected memory, a software bit is used:
